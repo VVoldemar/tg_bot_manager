@@ -5,6 +5,9 @@ import dotenv
 import logging
 
 import routers
+import settings
+
+from models import db_session
 
 dotenv.load_dotenv()
 
@@ -12,6 +15,7 @@ bot = aiogram.Bot(token=os.getenv("TOKEN"))
 dp = aiogram.Dispatcher()
 
 async def main():
+    db_session.global_init(settings.DB_FILE)
     dp.include_routers(*routers.routers)
     await dp.start_polling(bot)
 

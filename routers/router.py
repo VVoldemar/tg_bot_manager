@@ -20,9 +20,11 @@ async def start(message: types.Message, command: filters.CommandObject):
             types.KeyboardButton(text=strings.KEYBOARD.REFERRAL)
         ]
     ]
+
+    row_for_subscribers = 1
     if True:  # TODO: check subscription
         buttons.insert(
-            1,
+            row_for_subscribers,
             [
                 types.KeyboardButton(text=strings.KEYBOARD.APP), types.KeyboardButton(
                     text=strings.KEYBOARD.CONFIG)
@@ -50,18 +52,18 @@ async def message(message: types.Message):
                     inline_keyboard=[
                         [
                             types.InlineKeyboardButton(
-                                text="🤖 Android", callback_data=strings.APP.CALLBACK.ANDROID),
+                                text=strings.APP.BUTTONS.ANDROID, callback_data=strings.APP.CALLBACK.ANDROID),
                             types.InlineKeyboardButton(
-                                text="📱 IOS", callback_data=strings.APP.CALLBACK.IOS)
+                                text=strings.APP.BUTTONS.IOS, callback_data=strings.APP.CALLBACK.IOS)
                         ],
                         [
                             types.InlineKeyboardButton(
-                                text="🖥️ Windows", callback_data=strings.APP.CALLBACK.WINDOWS),
+                                text=strings.APP.BUTTONS.WINDOWS, callback_data=strings.APP.CALLBACK.WINDOWS),
                             types.InlineKeyboardButton(
-                                text="💻 MacOS", callback_data=strings.APP.CALLBACK.MACOS)
+                                text=strings.APP.BUTTONS.MACOS, callback_data=strings.APP.CALLBACK.MACOS)
                         ],
                         [types.InlineKeyboardButton(
-                            text="⚙️ Other",
+                            text=strings.APP.BUTTONS.OTHER,
                             callback_data=strings.APP.CALLBACK.OTHER
                         )]
                     ]
@@ -77,6 +79,7 @@ async def message(message: types.Message):
 
 @router.callback_query()
 async def callback(query: types.CallbackQuery):
+    await query.answer()
     if query.data in strings.APP.CALLBACK.__dict__.values():
         await query.message.answer(
             getattr(strings.APP.ANSWER, query.data.upper()),
@@ -85,5 +88,5 @@ async def callback(query: types.CallbackQuery):
                     text=strings.APP.OPEN, 
                     url=getattr(strings.APP.LINKS, query.data.upper())
                 )]]
-            )
+            ), parse_mode="Markdown"
         )
