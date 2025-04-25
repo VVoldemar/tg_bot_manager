@@ -1,4 +1,7 @@
+import aiogram
 import strings
+
+import models.user
 
 from aiogram import Router
 from aiogram import filters
@@ -7,7 +10,7 @@ from aiogram import types
 router = Router()
 
 @router.message(filters.CommandStart())
-async def start(message: types.Message, command: filters.CommandObject):
+async def start(message: types.Message, command: filters.CommandObject, user: models.user.User):
     print(command.args)
     
     buttons = [
@@ -39,7 +42,7 @@ async def start(message: types.Message, command: filters.CommandObject):
     )
 
 @router.message()
-async def message(message: types.Message):
+async def message(message: types.Message, bot: aiogram.Bot):
     match message.text:
         case strings.KEYBOARD.PROFILE:
             await message.answer(strings.PROFILE(message.from_user.full_name, "TODO: подписка", "TODO: дата"))

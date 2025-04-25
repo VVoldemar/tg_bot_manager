@@ -90,3 +90,9 @@ class KEYBOARD:
     CONFIG = "📜 Конфиг"
     HELP = "🆘 Поддержка"
     REFERRAL = "🔗 Привести друга"
+
+
+class SUBSCRIPTION:
+     BASIC = ""
+     MEDIUM = ""
+     PREMIUM = ""
